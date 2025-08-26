@@ -441,15 +441,14 @@
                     <li><a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-shield-alt"></i>
                             <span>Administración</span></a></li>
                     {% endif %}
-                    {# Mover enlace de sesión aquí para que quede más arriba en la barra lateral #}
-                    {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> <span>Iniciar Sesión</span></a></li>
-                    {% endif %}
                 </ul>
             </nav>
             <div class="sidebar-footer">
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a>
+                {% else %}
+                <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> <span>Iniciar Sesión</span></a>
+                {% endif %}
                 <div style="padding: 15px 20px; color: var(--color-texto-sidebar); font-size: 12px;">
                     &copy; Dr. Reyes
                 </div>
