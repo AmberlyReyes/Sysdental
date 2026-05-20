@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import os
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 
 from sisdental import crear_app, db, login_manager
 from sisdental.controladores.webControlador import register_routes
@@ -10,12 +14,15 @@ from sisdental.modelos.Usuario import Usuario
 
 #app = Flask(__name__)
 app = crear_app()
-app.secret_key = 'tu_clave_secreta_aqui'  
+# Usa una variable de entorno para la clave secreta (requerido en producción)
+app.secret_key = os.environ.get('SECRET_KEY')
+
+if not app.secret_key:
+    raise ValueError("No se ha configurado la variable de entorno SECRET_KEY.")
 
 # Configuración de la base de datos
 login_manager.login_view = 'login'
 
-# Necesitamos que Usuario herede de UserMixin para Flask-Login
 
 
 @login_manager.user_loader
@@ -46,8 +53,8 @@ with app.app_context():
         #print("Todas las tablas eliminadas.")
 
       
-        db.create_all()
-        print("Todas las tablas creadas.")
+        #db.create_all()
+        #print("Todas las tablas creadas.")
 
        
         admin = Usuario(
